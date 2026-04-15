@@ -17,7 +17,7 @@ import { Toaster } from "./components/ui/sonner";
 import { toast } from "sonner";
 
 export default function App() {
-  const [daysTogether, setDaysTogether] = useState(0);
+  const [timeTogether, setTimeTogether] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [showSurprise, setShowSurprise] = useState(false);
 
   const playBark = () => {
@@ -33,12 +33,22 @@ export default function App() {
   };
 
   useEffect(() => {
-    // Calculate days since start
-    const startDate = new Date("2026-02-16");
-    const today = new Date();
-    const diffTime = Math.abs(today.getTime() - startDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    setDaysTogether(diffDays);
+    const startDate = new Date("2026-02-16T00:00:00");
+    
+    const updateCounter = () => {
+      const now = new Date();
+      const diff = now.getTime() - startDate.getTime();
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      
+      setTimeTogether({ days, hours, minutes, seconds });
+    };
+
+    updateCounter();
+    const timer = setInterval(updateCounter, 1000);
 
     // Initial confetti + jingle
     const duration = 3 * 1000;
@@ -46,15 +56,12 @@ export default function App() {
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
     const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
-
-    // Play jingle on first interaction or load if possible
-    // Note: Browsers often block auto-play until interaction
     
-    const interval: any = setInterval(function() {
+    const confettiInterval: any = setInterval(function() {
       const timeLeft = animationEnd - Date.now();
 
       if (timeLeft <= 0) {
-        return clearInterval(interval);
+        return clearInterval(confettiInterval);
       }
 
       const particleCount = 50 * (timeLeft / duration);
@@ -62,7 +69,10 @@ export default function App() {
       confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
     }, 250);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(timer);
+      clearInterval(confettiInterval);
+    };
   }, []);
 
   const handleCelebrate = () => {
@@ -96,7 +106,9 @@ export default function App() {
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2 bg-secondary px-4 py-1.5 border-2 border-foreground shadow-[4px_4px_0px_rgba(0,0,0,1)]">
             <Sparkles size={16} className="text-foreground" />
-            <span className="text-xs font-bold uppercase tracking-widest">{daysTogether} Days of Love</span>
+            <span className="text-xs font-bold uppercase tracking-widest">
+              {timeTogether.days}d {timeTogether.hours}h {timeTogether.minutes}m {timeTogether.seconds}s of Love
+            </span>
           </div>
           <Button 
             onClick={() => { playBark(); toast("Woof! 🐾"); }}
@@ -159,9 +171,11 @@ export default function App() {
         <section className="py-12 px-4">
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="comic-panel">
-              <div className="micro-label">Time</div>
-              <div className="text-4xl font-heading italic text-primary mb-2">{daysTogether}</div>
-              <div className="text-[10px] uppercase tracking-widest font-bold">Days Together</div>
+              <div className="micro-label">Time Together</div>
+              <div className="text-2xl font-heading italic text-primary mb-2">
+                {timeTogether.days}d {timeTogether.hours}h {timeTogether.minutes}m {timeTogether.seconds}s
+              </div>
+              <div className="text-[10px] uppercase tracking-widest font-bold">Every second counts</div>
             </div>
             <div className="comic-panel">
               <div className="micro-label">Joy</div>

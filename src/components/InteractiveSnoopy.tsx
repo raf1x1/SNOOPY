@@ -108,19 +108,16 @@ export default function InteractiveSnoopy() {
             }}
             className="relative"
           >
-            <div className={`w-24 h-24 rounded-full border-[3px] border-foreground flex items-center justify-center transition-colors duration-500 ${isSleeping ? 'bg-muted' : 'bg-white shadow-[8px_8px_0px_rgba(0,0,0,1)]'}`}>
-              <PawPrint 
-                size={48} 
-                className={`transition-all duration-500 ${isSleeping ? 'text-muted-foreground opacity-50 rotate-90' : 'text-foreground'}`} 
-              />
-              
-              {/* Tail */}
-              <motion.div
-                animate={isWagging || isChasingTail ? {
-                  rotate: [0, 45, 0, -45, 0],
+            <div className={`w-32 h-32 rounded-full border-[3px] border-foreground flex items-center justify-center transition-colors duration-500 ${isSleeping ? 'bg-muted' : 'bg-white shadow-[8px_8px_0px_rgba(0,0,0,1)]'}`}>
+              <motion.img
+                src="https://pngimg.com/uploads/snoopy/snoopy_PNG42.png"
+                alt="Snoopy"
+                referrerPolicy="no-referrer"
+                className={`w-24 h-24 object-contain transition-all duration-500 ${isSleeping ? 'grayscale opacity-50 rotate-12' : 'grayscale-0 opacity-100'}`}
+                animate={isWagging ? {
+                  rotate: [0, 5, 0, -5, 0],
                 } : { rotate: 0 }}
-                transition={{ duration: 0.2, repeat: Infinity }}
-                className="absolute -right-2 bottom-4 w-6 h-2 bg-foreground rounded-full origin-left"
+                transition={isWagging ? { duration: 0.2, repeat: Infinity } : {}}
               />
 
               {/* Hearts when awake */}
