@@ -5,15 +5,15 @@
 
 import { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Music, Sparkles, PawPrint } from "lucide-react";
-import SnoopyHero from "./components/SnoopyHero";
-import InteractiveSnoopy from "./components/InteractiveSnoopy";
-import LoveLetter from "./components/LoveLetter";
-import SnoopyQuotes from "./components/SnoopyQuotes";
-import WoodstockGallery from "./components/WoodstockGallery";
-import { Button } from "./components/ui/button";
-import { Toaster } from "./components/ui/sonner";
+import SnoopyHero from "./components/SnoopyHero.tsx";
+import InteractiveSnoopy from "./components/InteractiveSnoopy.tsx";
+import LoveLetter from "./components/LoveLetter.tsx";
+import SnoopyQuotes from "./components/SnoopyQuotes.tsx";
+import WoodstockGallery from "./components/WoodstockGallery.tsx";
+import { Button } from "./components/ui/button.tsx";
+import { Toaster } from "./components/ui/sonner.tsx";
 import { toast } from "sonner";
 
 export default function App() {

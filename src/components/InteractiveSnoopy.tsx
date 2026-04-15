@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { PawPrint, Moon, Sun, Heart } from "lucide-react";
 
 export default function InteractiveSnoopy() {
